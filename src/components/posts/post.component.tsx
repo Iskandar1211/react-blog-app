@@ -1,9 +1,16 @@
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {PostType} from "@/types";
 
-const PostComponent = () => {
+const PostComponent = ({post}: { post: PostType }) => {
   return (
-    <div>
-
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>{post.title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {post.body}
+      </CardContent>
+    </Card>
   );
 };
 
