@@ -11,6 +11,11 @@ export const getCommentsById = async (postId: number): Promise<CommentType[]> =>
 }
 
 export const getPhotos = async (): Promise<PhotosType[]> => {
+  const response = await fetch(`https://fakestoreapi.com/products`);
+  return await response.json()
+}
+
+export const getPhotosFake = async (): Promise<PhotosType[]> => {
   const response = await fetch(`https://jsonplaceholder.typicode.com/photos`);
   return await response.json()
 }

@@ -15,9 +15,9 @@ export type CommentType = {
 }
 
 export type PhotosType = {
-  albumId: number,
   id: number,
   title: string,
-  url: string,
-  thumbnailUrl: string
+  image: string,
+  category: string
+  url: string
 }

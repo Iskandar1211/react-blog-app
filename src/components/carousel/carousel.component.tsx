@@ -11,7 +11,7 @@ const CarouselComponent = ({photos}: { photos: PhotosType[] }) => {
             <div className="p-1">
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <img src={photo.url} alt="image"/>
+                  <img src={photo.image} alt={photo.title}/>
                 </CardContent>
               </Card>
             </div>

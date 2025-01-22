@@ -1,4 +1,4 @@
-import {getPhotos, getPosts} from "@/rest-api";
+import {getPhotos, getPhotosFake, getPosts} from "@/rest-api";
 import {useQuery} from "@tanstack/react-query";
 import {PhotosType, PostType} from "@/types";
 import PostComponent from "@/components/posts/post.component.tsx";
@@ -16,13 +16,13 @@ const PostsComponent = () => {
 
   const {data: posts} = useQuery<PostType[]>({queryKey: ['posts'], queryFn: getPosts});
   const {data: photos} = useQuery<PhotosType[]>({queryKey: ['photos'], queryFn: getPhotos});
-
+  const {data: photosFake} = useQuery<PhotosType[]>({queryKey: ['photosFake'], queryFn: getPhotosFake});
   const [postsPerPage, setPostsPerPage] = useState(10);
   const indexOfLastPost = postId * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts?.slice(indexOfFirstPost, indexOfLastPost).map(post => ({
     ...post,
-    photos: photos?.filter(photo => photo.albumId === post.id).slice(0, 3)
+    photos: postId > 2 ? photosFake?.filter(photo => photo.id === post.id).map(photo => ({...photo, image: photo.url})) : photos?.filter(photo => photo.id === post.id)
   }));
 
   useEffect(() => {
