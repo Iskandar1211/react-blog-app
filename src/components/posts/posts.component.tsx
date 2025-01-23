@@ -47,7 +47,7 @@ const PostsComponent = () => {
   return (
     <div className={'container mx-auto flex flex-col h-screen'}>
       <h1 className={'text-2xl font-bold text-center'}>Posts</h1>
-      <div className={'flex gap-2'}>
+      <div className={'flex gap-2 max-sm:flex-col px-5'}>
         <div className={'flex gap-2 w-fit'}>
           <Input placeholder={'Search...'} className={'rounded'}
                  onChange={(event) => postStore.setPostTitle(event.target.value)}/>
