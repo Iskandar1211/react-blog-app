@@ -13,16 +13,19 @@ const PostsComponent = () => {
   const postId = parseInt(searchParams.get("postId") || "1", 10);
   const [postTitle, setPostTitle] = useState('');
   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
-
   const {data: posts} = useQuery<PostType[]>({queryKey: ['posts'], queryFn: getPosts});
   const {data: photos} = useQuery<PhotosType[]>({queryKey: ['photos'], queryFn: getPhotos});
   const {data: photosFake} = useQuery<PhotosType[]>({queryKey: ['photosFake'], queryFn: getPhotosFake});
+
   const [postsPerPage, setPostsPerPage] = useState(10);
   const indexOfLastPost = postId * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts?.slice(indexOfFirstPost, indexOfLastPost).map(post => ({
     ...post,
-    photos: postId > 2 ? photosFake?.filter(photo => photo.id === post.id).map(photo => ({...photo, image: photo.url})) : photos?.filter(photo => photo.id === post.id)
+    photos: postId > 2 ? photosFake?.filter(photo => photo.id === post.id).map(photo => ({
+      ...photo,
+      image: photo.url
+    })) : photos?.filter(photo => photo.id === post.id)
   }));
 
   useEffect(() => {
