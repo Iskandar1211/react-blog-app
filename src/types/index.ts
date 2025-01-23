@@ -4,6 +4,7 @@ export type PostType = {
   title: string,
   body: string
   photos?: PhotosType[]
+  tags: string[]
 }
 
 export type CommentType = {

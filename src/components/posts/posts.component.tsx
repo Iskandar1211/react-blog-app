@@ -8,6 +8,15 @@ import PaginationComponent from "@/components/pagination/pagination.component.ts
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {usePostsStore} from "@/store/store.ts";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select.tsx";
 
 const PostsComponent = () => {
   const [searchParams] = useSearchParams();
@@ -38,10 +47,25 @@ const PostsComponent = () => {
   return (
     <div className={'container mx-auto flex flex-col h-screen'}>
       <h1 className={'text-2xl font-bold text-center'}>Posts</h1>
-      <div className={'flex gap-2 w-fit'}>
-        <Input placeholder={'Search...'} className={'rounded'}
-               onChange={(event) => postStore.setPostTitle(event.target.value)}/>
-        <Button onClick={() => postStore.setFilteredPosts(posts)}>Search</Button>
+      <div className={'flex gap-2'}>
+        <div className={'flex gap-2 w-fit'}>
+          <Input placeholder={'Search...'} className={'rounded'}
+                 onChange={(event) => postStore.setPostTitle(event.target.value)}/>
+          <Button onClick={() => postStore.setFilteredPosts(posts)}>Search</Button>
+        </div>
+        <div>
+          <Select value={postStore.selectedTag} onValueChange={(event) => postStore.setFilteredByTag(event)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select per page"/>
+            </SelectTrigger>
+            <SelectContent className={'bg-white'}>
+              <SelectGroup>
+                <SelectLabel>Tags</SelectLabel>
+                {postStore.tags.map(tag => <SelectItem key={tag} value={tag}>{tag}</SelectItem>)}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <div className={'grid grid-cols-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 p-5 gap-4 flex-1'}>
         {currentPosts && currentPosts.length > 0 && currentPosts.map(post => {
