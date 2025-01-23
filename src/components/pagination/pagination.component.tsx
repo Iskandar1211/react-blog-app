@@ -17,14 +17,13 @@ import {
 } from "@/components/ui/select.tsx";
 import {PostType} from "@/types";
 import {useSearchParams} from "react-router-dom";
-import {Dispatch, SetStateAction} from "react";
+import {usePostsStore} from "@/store/store.ts";
 
-const PaginationComponent = ({posts, postsPerPage, setPostsPerPage}: {
+const PaginationComponent = ({posts}: {
   posts: PostType[],
-  postsPerPage: number,
-  setPostsPerPage: Dispatch<SetStateAction<number>>
 }) => {
-  const totalPages = posts?.length ? Math.ceil(posts.length / postsPerPage) : 0;
+  const postStore = usePostsStore(state => state)
+  const totalPages = posts?.length ? Math.ceil(posts.length / postStore.postsPerPage) : 0;
   const [searchParams, setSearchParams] = useSearchParams();
   const postId = parseInt(searchParams.get("postId") || "1", 10);
 
@@ -32,7 +31,7 @@ const PaginationComponent = ({posts, postsPerPage, setPostsPerPage}: {
     setSearchParams({postId: String(page)});
   };
   const handlePostsPerPageChange = (value: number) => {
-    setPostsPerPage(value);
+    postStore.setPostsPerPage(value);
     setSearchParams({postId: "1"});
   };
 
@@ -45,7 +44,7 @@ const PaginationComponent = ({posts, postsPerPage, setPostsPerPage}: {
           />
         </PaginationItem>
         <PaginationItem>
-          <Select value={String(postsPerPage)} onValueChange={(event) => handlePostsPerPageChange(parseInt(event))}>
+          <Select value={String(postStore.postsPerPage)} onValueChange={(event) => handlePostsPerPageChange(parseInt(event))}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select per page"/>
             </SelectTrigger>
